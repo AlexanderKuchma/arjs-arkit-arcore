@@ -13,8 +13,7 @@
         }
 
         function supportsARCore() {
-            // Упрощенная проверка поддержки ARCore
-            return navigator.userAgent.includes('ARCore') || navigator.userAgent.includes('com.google.ar.core');
+            return /ARCore/.test(navigator.userAgent) || /com\.google\.ar\.core/.test(navigator.userAgent);
         }
 
         function getModelUrl() {
@@ -39,3 +38,4 @@
 <body>
 </body>
 </html>
+
