@@ -2,13 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>AR Viewer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        body { margin: 0; overflow: hidden; }
-        model-viewer { width: 100vw; height: 100vh; }
-    </style>
+    <title>AR Redirect</title>
     <script>
         function isIOS() {
             return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -19,7 +13,7 @@
         }
 
         function supportsARCore() {
-            // Упрощенная проверка поддержки ARCore
+            // Проверка поддержки ARCore
             return navigator.userAgent.includes('ARCore') || navigator.userAgent.includes('com.google.ar.core');
         }
 
@@ -28,36 +22,22 @@
             return urlParams.get('model') || 'default_model.glb';
         }
 
-        function loadAR(url) {
+        function redirectToAppropriatePage(url) {
             if (isIOS() || (isAndroid() && supportsARCore())) {
-                // Для iOS и Android с ARCore
-                document.body.innerHTML = `
-                    <model-viewer 
-                        id="model-viewer"
-                        alt="A 3D model" 
-                        ar 
-                        ar-modes="webxr scene-viewer quick-look" 
-                        camera-controls 
-                        auto-rotate 
-                        interaction-prompt="none" 
-                        ar-scale="auto" 
-                        ar-placement="floor"
-                        src="${url}">
-                    </model-viewer>
-                `;
+                window.location.href = `ar.html?model=${encodeURIComponent(url)}`;
             } else {
-                // Для Android без ARCore и других устройств
                 window.location.href = `marker.html?model=${encodeURIComponent(url)}`;
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const modelUrl = getModelUrl();
-            loadAR(modelUrl);
+            redirectToAppropriatePage(modelUrl);
         });
     </script>
 </head>
 <body>
 </body>
 </html>
+
 
