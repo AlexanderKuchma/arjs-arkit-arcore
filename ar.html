@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AR Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        model-viewer { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <model-viewer 
+        id="model-viewer"
+        alt="A 3D model" 
+        ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        auto-rotate 
+        interaction-prompt="none" 
+        ar-scale="auto" 
+        ar-placement="floor">
+    </model-viewer>
+
+    <script>
+        const modelViewer = document.getElementById('model-viewer');
+
+        // Получаем параметр URL для выбора модели
+        const urlParams = new URLSearchParams(window.location.search);
+        const modelFile = urlParams.get('model') || 'default_model.glb'; // Задаем модель по умолчанию
+
+        modelViewer.src = modelFile;
+
+        modelViewer.addEventListener('load', () => {
+            console.log('Model loaded');
+            modelViewer.activateAR();
+        });
+
+        modelViewer.addEventListener('ar-status', (event) => {
+            console.log('AR status changed:', event.detail.status);
+        });
+
+        modelViewer.addEventListener('error', (event) => {
+            console.error('Error:', event.detail);
+        });
+    </script>
+</body>
+</html>
