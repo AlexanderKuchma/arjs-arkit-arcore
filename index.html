@@ -3,34 +3,24 @@
 <head>
     <meta charset="utf-8">
     <title>AR Example</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
-</head>
-<body>
     <script>
-        // Функция для определения iOS устройств
         function isIOS() {
             return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         }
 
-        // Функция для определения Android устройств
         function isAndroid() {
             return /Android/.test(navigator.userAgent);
         }
 
-        // Функция для проверки поддержки ARCore
         function supportsARCore() {
-            // Простой способ проверки поддержки ARCore
             return /ARCore/.test(navigator.userAgent);
         }
 
-        // Функция для получения URL модели из параметра URL
         function getModelUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'default_model.glb'; // Замените на имя вашей модели, если нужно
+            return urlParams.get('model') || 'default_model.glb';
         }
 
-        // Функция для загрузки AR Quick Look (iOS)
         function loadARQuickLook(url) {
             const anchor = document.createElement('a');
             anchor.setAttribute('rel', 'ar');
@@ -40,21 +30,12 @@
             anchor.click();
         }
 
-        // Функция для загрузки ARCore (Android)
         function loadARCore(url) {
-            window.location.href = url;
+            window.location.href = `arcore.html?model=${encodeURIComponent(url)}`;
         }
 
-        // Функция для загрузки маркерной AR
-        function loadMarkerBasedAR(modelUrl) {
-            document.body.innerHTML = `
-                <a-scene embedded arjs='sourceType: webcam;'>
-                    <a-marker preset="hiro">
-                        <a-entity gltf-model="url(${modelUrl})" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
-                    </a-marker>
-                    <a-entity camera></a-entity>
-                </a-scene>
-            `;
+        function loadMarkerBasedAR(url) {
+            window.location.href = `marker.html?model=${encodeURIComponent(url)}`;
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -63,7 +44,7 @@
                 loadARQuickLook(modelUrl);
             } else if (isAndroid()) {
                 if (supportsARCore()) {
-                    loadARCore('arcore.html?model=' + encodeURIComponent(modelUrl));
+                    loadARCore(modelUrl);
                 } else {
                     loadMarkerBasedAR(modelUrl);
                 }
@@ -72,5 +53,8 @@
             }
         });
     </script>
+</head>
+<body>
 </body>
 </html>
+
