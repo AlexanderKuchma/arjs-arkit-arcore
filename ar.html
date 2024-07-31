@@ -40,7 +40,7 @@
         ar-placement="floor">
     </model-viewer>
 
-    <button class="ar-button" id="ar-button">Включить AR</button>
+    <button class="ar-button" id="ar-button">Открыть AR</button>
 
     <script>
         const modelViewer = document.getElementById('model-viewer');
@@ -48,7 +48,7 @@
 
         // Получаем параметр URL для выбора модели
         const urlParams = new URLSearchParams(window.location.search);
-        const modelFile = urlParams.get('model') || 'default_model.glb'; // Задаем модель по умолчанию
+        const modelFile = urlParams.get('model') || 'default_model.glb'; // Устанавливаем модель по умолчанию
 
         modelViewer.src = modelFile;
 
