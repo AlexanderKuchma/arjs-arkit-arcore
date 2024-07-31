@@ -13,12 +13,13 @@
         }
 
         function supportsARCore() {
+            // Проверка наличия ARCore на Android
             return /ARCore/.test(navigator.userAgent) || /com\.google\.ar\.core/.test(navigator.userAgent);
         }
 
         function getModelUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'default_model.glb'; // Задаем модель по умолчанию
+            return urlParams.get('model') || 'default_model.glb'; // Устанавливаем модель по умолчанию
         }
 
         function redirectToAppropriatePage(url) {
