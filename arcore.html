@@ -8,10 +8,9 @@
 </head>
 <body>
     <script>
-        // Функция для получения URL модели из параметра URL
         function getModelUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'default_model.glb'; // Замените на имя вашей модели, если нужно
+            return urlParams.get('model') || 'default_model.glb';
         }
 
         document.addEventListener('DOMContentLoaded', function () {
