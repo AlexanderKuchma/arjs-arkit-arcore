@@ -13,13 +13,13 @@
         }
 
         function supportsARCore() {
-            // Проверка поддержки ARCore
+            // Упрощенная проверка поддержки ARCore
             return navigator.userAgent.includes('ARCore') || navigator.userAgent.includes('com.google.ar.core');
         }
 
         function getModelUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'default_model.glb';
+            return urlParams.get('model') || 'default_model.glb'; // Задаем модель по умолчанию
         }
 
         function redirectToAppropriatePage(url) {
@@ -39,5 +39,3 @@
 <body>
 </body>
 </html>
-
-
