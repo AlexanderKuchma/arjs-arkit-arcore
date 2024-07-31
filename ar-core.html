@@ -12,4 +12,27 @@
 </head>
 <body>
     <model
+    <script>
+        const modelViewer = document.getElementById('model-viewer');
+
+        // Получаем параметр URL для выбора модели
+        const urlParams = new URLSearchParams(window.location.search);
+        const modelFile = urlParams.get('model') || 'sofa.glb'; // Устанавливаем модель по умолчанию
+
+        modelViewer.src = modelFile;
+
+        modelViewer.addEventListener('load', () => {
+            console.log('Model loaded');
+        });
+
+        modelViewer.addEventListener('ar-status', (event) => {
+            console.log('AR status changed:', event.detail.status);
+        });
+
+        modelViewer.addEventListener('error', (event) => {
+            console.error('Error:', event.detail);
+        });
+    </script>
+</body>
+</html>
 
