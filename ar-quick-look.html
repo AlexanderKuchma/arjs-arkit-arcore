@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AR Quick Look</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        model-viewer { width: 100vw; height: 100vh; }
+        .ar-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 50px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <model-viewer 
+        id="model-viewer"
+        alt="3D model" 
+        ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        auto-rotate 
+        interaction-prompt="auto" 
+        ar-scale="auto" 
+        ar-placement="floor">
+    </model-viewer>
+
+    <button class="ar-button" id="ar-button">Открыть</button>
+
+    <script>
+        const modelViewer = document.getElementById('model-viewer');
+        const arButton = document.getElementById('ar-button');
+
+        // Получаем параметр URL для выбора модели
+        const urlParams = new URLSearchParams(window.location.search);
+        const modelFile = urlParams.get('model') || 'Scaniverse_2024-07-15_170330.glb'; // Устанавливаем модель по умолчанию
+
+        modelViewer.src = modelFile;
+
+        arButton.addEventListener('click', () => {
+            console.log('AR button clicked');
+            modelViewer.activateAR();
+        });
+
+        modelViewer.addEventListener('load', () => {
+            console.log('Model loaded');
+        });
+
+        modelViewer.addEventListener('ar-status', (event) => {
+            console.log('AR status changed:', event.detail.status);
+        });
+
+        modelViewer.addEventListener('error', (event) => {
+            console.error('Error:', event.detail);
+        });
+    </script>
+</body>
+</html>
