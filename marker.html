@@ -11,22 +11,24 @@
     </style>
 </head>
 <body>
+    <a-scene embedded arjs='sourceType: webcam;'>
+        <a-marker preset="hiro">
+            <!-- Загружаем модель GLB -->
+            <a-entity id="model" gltf-model="url(sofa.glb)" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+
     <script>
         function getModelUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'default_model.glb'; // Устанавливаем модель по умолчанию
+            return urlParams.get('model') || 'sofa.glb'; // Устанавливаем модель по умолчанию
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             const modelUrl = getModelUrl();
-            document.body.innerHTML = `
-                <a-scene embedded arjs='sourceType: webcam;'>
-                    <a-marker preset="hiro">
-                        <a-entity gltf-model="url(${modelUrl})" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
-                    </a-marker>
-                    <a-entity camera></a-entity>
-                </a-scene>
-            `;
+            const modelEntity = document.querySelector('#model');
+            modelEntity.setAttribute('gltf-model', `url(${modelUrl})`);
         });
     </script>
 </body>
