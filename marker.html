@@ -14,10 +14,10 @@
     <script>
         function getModelUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'default_model.glb';
+            return urlParams.get('model') || 'default_model.glb'; // Задаем модель по умолчанию
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const modelUrl = getModelUrl();
             document.body.innerHTML = `
                 <a-scene embedded arjs='sourceType: webcam;'>
