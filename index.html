@@ -8,24 +8,29 @@
 </head>
 <body>
     <script>
+        // Функция для определения iOS устройств
         function isIOS() {
             return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         }
 
+        // Функция для определения Android устройств
         function isAndroid() {
             return /Android/.test(navigator.userAgent);
         }
 
+        // Функция для проверки поддержки ARCore
         function supportsARCore() {
             // Простой способ проверки поддержки ARCore
             return /ARCore/.test(navigator.userAgent);
         }
 
+        // Функция для получения URL модели из параметра URL
         function getModelUrl() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'default_model.glb';
+            return urlParams.get('model') || 'default_model.glb'; // Замените на имя вашей модели, если нужно
         }
 
+        // Функция для загрузки AR Quick Look (iOS)
         function loadARQuickLook(url) {
             const anchor = document.createElement('a');
             anchor.setAttribute('rel', 'ar');
@@ -35,17 +40,19 @@
             anchor.click();
         }
 
+        // Функция для загрузки ARCore (Android)
         function loadARCore(url) {
             window.location.href = url;
         }
 
+        // Функция для загрузки маркерной AR
         function loadMarkerBasedAR(modelUrl) {
             document.body.innerHTML = `
-                <a-scene embedded arjs>
+                <a-scene embedded arjs='sourceType: webcam;'>
                     <a-marker preset="hiro">
                         <a-entity gltf-model="url(${modelUrl})" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
                     </a-marker>
-                    <a-camera-static></a-camera-static>
+                    <a-entity camera></a-entity>
                 </a-scene>
             `;
         }
@@ -53,7 +60,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const modelUrl = getModelUrl();
             if (isIOS()) {
-                loadARQuickLook(modelUrl.replace('.glb', '.usdz'));
+                loadARQuickLook(modelUrl);
             } else if (isAndroid()) {
                 if (supportsARCore()) {
                     loadARCore('arcore.html?model=' + encodeURIComponent(modelUrl));
