@@ -11,7 +11,18 @@
     </style>
 </head>
 <body>
-    <model
+    <model-viewer 
+        id="model-viewer"
+        alt="3D model" 
+        ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        auto-rotate 
+        interaction-prompt="none" 
+        ar-scale="auto" 
+        ar-placement="floor">
+    </model-viewer>
+
     <script>
         const modelViewer = document.getElementById('model-viewer');
 
