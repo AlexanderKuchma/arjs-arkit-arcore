@@ -4,39 +4,49 @@
     <meta charset="utf-8">
     <title>AR Redirect</title>
     <script>
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        function getModelUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('model') || 'Scaniverse_2024-07-15_170330.glb'; // Устанавливаем модель по умолчанию
+        }
+
+        function isIos() {
+            return /iPhone|iPad|iPod/.test(navigator.userAgent);
         }
 
         function isAndroid() {
             return /Android/.test(navigator.userAgent);
         }
 
-        function supportsARCore() {
-            // Проверка наличия ARCore на Android
-            return /ARCore/.test(navigator.userAgent) || /com\.google\.ar\.core/.test(navigator.userAgent);
+        function isArCoreSupported() {
+            // Проверяем наличие ARCore на Android
+            return /com\.google\.ar\.core/.test(navigator.userAgent);
         }
 
-        function getModelUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('model') || 'Scaniverse_2024-07-15_170330.glb'; // Устанавливаем модель по умолчанию
-        }
+        function redirectToAppropriatePage() {
+            const modelUrl = getModelUrl();
 
-        function redirectToAppropriatePage(url) {
-            if (isIOS() || (isAndroid() && supportsARCore())) {
-                window.location.href = `ar.html?model=${encodeURIComponent(url)}`;
+            if (isIos()) {
+                // Перенаправляем на AR Quick Look для iOS
+                window.location.href = `ar-quick-look.html?model=${encodeURIComponent(modelUrl)}`;
+            } else if (isAndroid()) {
+                if (isArCoreSupported()) {
+                    // Перенаправляем на ARCore для Android
+                    window.location.href = `ar-core.html?model=${encodeURIComponent(modelUrl)}`;
+                } else {
+                    // Перенаправляем на маркерный AR для Android без ARCore
+                    window.location.href = `marker.html?model=${encodeURIComponent(modelUrl)}`;
+                }
             } else {
-                window.location.href = `marker.html?model=${encodeURIComponent(url)}`;
+                // Для прочих устройств используем маркерный AR
+                window.location.href = `marker.html?model=${encodeURIComponent(modelUrl)}`;
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const modelUrl = getModelUrl();
-            redirectToAppropriatePage(modelUrl);
-        });
+        document.addEventListener('DOMContentLoaded', redirectToAppropriatePage);
     </script>
 </head>
 <body>
 </body>
 </html>
+
 
